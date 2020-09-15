@@ -1,13 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Neuton&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noticia+Text&display=swap');
+
 body {
+  background-color: var(--clr-bg);
+  padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.click-collector {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  left: 0px;
+  top: 0px;
+}
+
+.wrapper {
+  /* width: calc(var(--sudoku-size) + 10px); */
+  text-align: center;
+  margin-top: 100px;
+
+  font-family: 'Noticia Text';
+  z-index: -1;
+}
+
+.grid-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  height: 45px;
+  width: 200px;
+  border-radius: 10px;
+  z-index: 2;
+
+  font-size: 2.5rem;
+  line-height: 40px;
+  color: var(--clr-font-timer);
+
+  background-color: #fff;
+  transition: background-color .2s;
+
+  user-select: none;
+}
+
+.grid-header:hover {
+  background-color: var(--clr-element-hover);
+}
+
+.grid-container {
+  position: relative;
+  display: inline-grid;
+
+  width: calc(var(--sudoku-size) + 10px);
+
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: repeat(3, auto);
+  gap: 2px;
+
+  border: 2px solid var(--clr-grid);
+  border-radius: 7px;
+  overflow: hidden;
+
+  background-color: var(--clr-grid);
+
+  z-index: 5;
+}
+
+.sub-container {
+  display: grid;
+  grid-template-columns: repeat(3, var(--cell-size));
+  grid-template-rows: repeat(3, var(--cell-size));
+  gap: 1px;
+
+  background-color: var(--clr-grid);
+}
+
+.cell , .cell-selected, .cell-locked {
+  text-align: center;
+  line-height: var(--cell-size);
+
+  color: var(--clr-font-secondary);
+  font-size: 4rem;
+
+  user-select: none;
+
+  background-color: var(--clr-bg);
+}
+
+.cell:hover {
+  background-color: var(--clr-grid-hover);
+}
+
+.cell-selected {
+  background-color: var(--clr-highlight);
+}
+
+.cell-locked {
+  color: var(--clr-font-main);
+}
+
+.cell-text-center {
+  font-size: 1.5rem;
+}
+
+:root {
+  font-size: 62.5%;
+  --cell-size: 6rem;
+  --box-size: calc(var(--cell-size) * 3);
+  --sudoku-size: calc(var(--cell-size) * 9);
+
+  /* COLOUR SCHEMES  */
+  /* LIGHT MODE */
+  --clr-bg: #fff;
+  --clr-grid: #aaa;
+  --clr-grid-hover: #eee;
+  --clr-highlight: #FFE4AA;
+  --clr-element-hover: #eee;
+
+  --clr-font-main: #333;
+  --clr-font-secondary: #5885b0;
+  --clr-font-timer: #555;
+  /* --clr-bg: #222;
+  --clr-grid: #666;
+  --clr-grid-hover: #333;
+  --clr-highlight: #CFB593;
+
+  --clr-font-main: #eee;
+  --clr-font-secondary: #5885b0; */
+}
+
+ {
+  /* DARK MODE */
+  --clr-bg: #444;
+  --clr-grid: #ccc;
+  --clr-grid-hover: #aaa;
+  --clr-highlight: #FFE4AA;
+
+  --clr-font-main: #bbb;
+  --clr-font-secondary: #5475B3;
 }

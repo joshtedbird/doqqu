@@ -1,0 +1,75 @@
+.game-gui-floater {
+  position:relative;
+  margin: 0 auto;
+
+  width: 0px;
+  height: 0px;
+
+  display: inline-block;
+}
+
+.game-gui {
+  position: absolute;
+  display: inline-block;
+  /* width: var(--gui-width); */
+  height: var(--gui-height);
+  margin-left: 50px;
+  padding: 10px;
+  z-index: 10;
+}
+
+.gui-numpad {
+  display: inline-grid;
+  grid-template-columns: repeat(3, var(--numpad-key-size));
+  grid-template-rows: repeat(4, var(--numpad-key-size));
+  gap: 1rem;
+
+  /* width: var(--gui-width); */
+  height: var(--gui-width);
+}
+
+.gui-idle {
+  background-color: #ccc;
+  opacity: 0.2;
+}
+
+.gui-active {
+  background-color: #8ebaed;
+  opacity: 1;
+}
+
+.numpad-key {
+  width: var(--numpad-key-size);
+  height: var(--numpad-key-size);
+
+  transition: opacity .2s;
+
+  color: white;
+
+  font-size: 2rem;
+  line-height: var(--numpad-key-size);
+  user-select: none;
+
+  border-radius: 1rem;
+}
+
+.numpad-key:hover {
+  background-color: #6495cc;
+}
+
+.numpad-key:active {
+  background-color: #507bad;
+}
+
+.numpad-key-del {
+  width: calc(calc(var(--numpad-key-size) * 3) + 2rem);
+  height: 4rem;
+  line-height: 4rem;
+}
+
+:root {
+  font-size: 62.5%;
+  --gui-width: 19rem;
+  --gui-height: 430px;
+  --numpad-key-size: 5.5rem;
+}
