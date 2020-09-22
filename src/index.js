@@ -7,10 +7,15 @@ import Gui from './gui.js';
 import {solveSudoku} from './sudoku-solver.js';
 
 function Game(){
+  const MODE_NORM = 'norm';
+  const MODE_CORN = 'corn';
+  const MODE_CENT = 'cent';
+
   const [grid, setGrid] = useState(populateGrid());
   const [activeCell, setActiveCell] = useState(null);
   const [selectToggle, setToggle] = useState(false);
   const [selectToggleHeld, setToggleHeld] = useState(false);
+  const [writeMode, setWriteMode] = useState(MODE_NORM);
 
   function addSelected(i, firstClick){
     setActiveCell(i);
@@ -58,12 +63,38 @@ function Game(){
   }
 
   function setValues(i) {
+    //Change Write MODE
+    
+
     let new_grid = [];
 
     for(let k = 0; k < grid.length; k++){
       new_grid.push(grid[k]);
       if(grid[k].selected && !grid[k].locked){
-        new_grid[k].value = i;
+        //DELETE
+        if(!i){
+          if(new_grid[k].value){
+            new_grid[k].value = null;
+          }else{
+            new_grid[k].pm_corner = [];
+            new_grid[k].pm_center = [];
+          }
+        }else if(writeMode === MODE_NORM){
+          new_grid[k].value = i;
+        }else if(writeMode === MODE_CORN){
+          if(new_grid[k].pm_corner.includes(i)){
+            removeA(new_grid[k].pm_corner, i);
+          }else{
+            new_grid[k].pm_corner.push(i);
+          }
+
+        }else if(writeMode === MODE_CENT){
+          if(new_grid[k].pm_center.includes(i)){
+            removeA(new_grid[k].pm_center, i);
+          }else{
+            new_grid[k].pm_center.push(i);
+          }
+        }
       }
     }
 
@@ -119,6 +150,18 @@ function Game(){
         setValues(null);
         break;
 
+      case 81:
+        setValues('q');
+        break;
+
+      case 87:
+        setValues('w');
+        break;
+
+      case 69:
+        setValues('e');
+        break;
+
       default:
         break;
     }
@@ -144,6 +187,10 @@ function Game(){
     }else{
       setValues(i);
     }
+  }
+
+  function toggleWriteMode(m){
+    setWriteMode(m);
   }
 
   useEffect(() => {
@@ -175,6 +222,7 @@ function Game(){
         />
         <Gui
           numPressed = {numpadPress}
+          toggleWriteMode = {toggleWriteMode}
           clickReg = {outClick}
         />
       </div>
@@ -220,6 +268,17 @@ function populateGrid(){
   }
 
   return(grid_arr);
+}
+
+function removeA(arr) {
+    var what, a = arguments, L = a.length, ax;
+    while (L > 1 && arr.length) {
+        what = a[--L];
+        while ((ax= arr.indexOf(what)) !== -1) {
+            arr.splice(ax, 1);
+        }
+    }
+    return arr;
 }
 
 ReactDOM.render(
