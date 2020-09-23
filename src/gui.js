@@ -6,7 +6,7 @@ import gui_cent from './assets/gui_cent.svg';
 import gui_corn from './assets/gui_corn.svg';
 
 function Gui({numPressed, clickReg, toggleWriteMode}){
-  const [web, changeDisplay] = useState(false);
+  const [web, changeDisplay] = useState(true);
 
   return(
     <div className = {web? 'game-gui-floater': ''}>
@@ -67,9 +67,16 @@ function WriteToggle({web, toggleMode}){
   const CORN = 'corn';
   const CENT = 'cent';
 
+  const POS_LEFT = ' mode-switch-ind-left';
+  const POS_CENTER = ' mode-switch-ind-center';
+  const POS_RIGHT = ' mode-switch-ind-right';
+
+
   const [norm_style, changeNorm] = useState(true);
   const [corn_style, changeCorn] = useState(false);
   const [cent_style, changeCent] = useState(false);
+  const [ind_pos, changeIndPos] = useState(POS_LEFT)
+  const [active, changeActive] = useState(false);
 
   function handleClick(event){
     let m = event.target.id;
@@ -83,45 +90,70 @@ function WriteToggle({web, toggleMode}){
       changeNorm(true);
       changeCorn(false);
       changeCent(false);
+      changeIndPos(POS_LEFT);
     }else if(m === CORN){
       changeNorm(false);
       changeCorn(true);
       changeCent(false);
+      changeIndPos(POS_CENTER);
     }else if(m === CENT){
       changeNorm(false);
       changeCorn(false);
       changeCent(true);
+      changeIndPos(POS_RIGHT);
     }
   }
 
+  function handleEnter(){
+    changeActive(true);
+  }
+
+  function handleLeave(){
+    changeActive(false);
+  }
+
   return(
-    <div className = {(web? 'mode-switch-cont-web':'mode-switch-cont-mobile') + ' mode-switch-cont'}>
-      <div className = 'mode-switch-btn-cont'>
-        <div className = {(norm_style? ' mode-toggled': '') + ' mode-switch-btn'} >
-          <img src = {gui_norm} alt = "" id = {NORM} onClick = {handleClick}/>
-        </div>
-      </div>
-      <div className = 'mode-switch-btn-cont'>
-        <div className = {(corn_style? ' mode-toggled': '') + ' mode-switch-btn'} >
-          <img src = {gui_corn} alt = "" id = {CORN} onClick = {handleClick}/>
-        </div>
-      </div>
-      <div className = 'mode-switch-btn-cont'>
-        <div className = {(cent_style? ' mode-toggled': '') + ' mode-switch-btn'}>
-          <img src = {gui_cent} alt = "" id = {CENT} onClick = {handleClick}/>
-        </div>
-      </div>
-      <div className = {'mode-switch-label'}>
-        {'normal'}
-      </div>
-      <div className = {'mode-switch-label'}>
-        {'corner'}
-      </div>
-      <div className = {'mode-switch-label'}>
-        {'center'}
+    <div className = 'mode-switch-cont' onMouseOver = {handleEnter} onMouseLeave = {handleLeave}>
+      <div className = {(active? 'mode-switch-btn-active':'') + ' mode-switch-btn'} id = {NORM} onClick = {handleClick}> </div>
+      <div className = {(active? 'mode-switch-btn-active':'') + ' mode-switch-btn'} id = {CORN} onClick = {handleClick}> </div>
+      <div className = {(active? 'mode-switch-btn-active':'') + ' mode-switch-btn'} id = {CENT} onClick = {handleClick}> </div>
+      <div className = {'mode-switch-ind' + ind_pos}> </div>
+      <div className = "mode-switch-img-cont">
+        <img src = {gui_norm} alt = "" className = "mode-switch-img" id = {NORM} onClick = {handleClick}/>
+        <img src = {gui_corn} alt = "" className = "mode-switch-img" id = {CORN} onClick = {handleClick}/>
+        <img src = {gui_cent} alt = "" className = "mode-switch-img" id = {CENT} onClick = {handleClick}/>
       </div>
     </div>
   );
 }
+
+//OLD WRITE TOGGLE COMPONENT
+// <div className = {(web? 'mode-switch-cont-web':'mode-switch-cont-mobile') + ' mode-switch-cont'}>
+//   <div className = 'mode-switch-btn-cont'>
+//     <div className = {(norm_style? ' mode-toggled': '') + ' mode-switch-btn'} >
+//
+//     </div>
+//   </div>
+//   <div className = 'mode-switch-btn-cont'>
+//     <div className = {(corn_style? ' mode-toggled': '') + ' mode-switch-btn'} >
+//
+//     </div>
+//   </div>
+//   <div className = 'mode-switch-btn-cont'>
+//     <div className = {(cent_style? ' mode-toggled': '') + ' mode-switch-btn'}>
+//
+//     </div>
+//   </div>
+// </div>
+
+// <div className = {'mode-switch-label'}>
+//   {'normal'}
+// </div>
+// <div className = {'mode-switch-label'}>
+//   {'corner'}
+// </div>
+// <div className = {'mode-switch-label'}>
+//   {'center'}
+// </div>
 
 export default Gui;

@@ -46,7 +46,7 @@ body {
   font-size: 2.5rem;
   color: var(--clr-font-timer);
 
-  background-color: #fff;
+  background-color: var(--clr-element);
   transition: background-color .2s;
 
   user-select: none;
@@ -145,7 +145,8 @@ body {
   --clr-grid: #aaa;
   --clr-grid-hover: #eee;
   --clr-highlight: #FFE4AA;
-  --clr-element-hover: #eee;
+  --clr-element-hover: #f1f1f1;
+  --clr-element: #f8f8f8;
 
   --clr-font-main: #333;
   --clr-font-secondary: #5885b0;

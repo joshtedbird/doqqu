@@ -11,13 +11,11 @@
 .game-gui {
   display: grid;
   z-index: 10;
-
 }
 
 .game-gui-layout-web {
   position: absolute;
   margin-left: 50px;
-  padding: 10px;
   gap: 20px;
   height: var(--gui-height);
   grid-template-columns: auto;
@@ -29,7 +27,7 @@
   margin-top: 10px;
   position: relative;
   gap: 20px;
-  grid-template-columns: 170px calc((10 * (var(--numpad-key-size) - 5px) + 4.5rem) - 175px);
+  grid-template-columns: 190px calc((10 * (var(--numpad-key-size) - 5px) + 4.5rem) - 195px);
   grid-template-rows: calc(var(--numpad-key-size) - 5px) 80px;
   margin-left: auto;
   margin-right: auto;
@@ -37,6 +35,17 @@
 
 .gui-numpad {
   display: grid;
+  padding: 5px;
+  background-color: var(--clr-element);
+  height: calc(4 * var(--numpad-key-size) + 15px);
+  background-color: var(--clr-element-hover);
+  opacity: .5;
+  transition: opacity .2s;
+  border-radius: 12px;
+}
+
+.gui-numpad:hover {
+  opacity: 1;
 }
 
 .gui-numpad-web {
@@ -53,10 +62,76 @@
 }
 
 .mode-switch-cont {
-  width: 170px;
-  height: 80px;
-  display: grid;
-  column-gap: 10px;
+  margin: 0 auto;
+  padding: 3%;
+  width: 94%;
+  height: var(--mode-switch-btn-size);
+
+  border-radius: 14px;
+
+  display: flex;
+  justify-content: space-between;
+
+  background-color: var(--clr-element-hover);
+  opacity: .5;
+  transition: opacity .2s;
+}
+
+.mode-switch-cont:hover {
+  opacity: 1;
+}
+
+.mode-switch-btn {
+  width: var(--mode-switch-btn-size);
+  height: var(--mode-switch-btn-size);
+
+  display: flex;
+
+  border-radius: 12px;
+  background-color: #e1e1e1;
+}
+
+.mode-switch-btn:hover {
+  background-color: #d8d8d8;
+}
+
+.mode-switch-ind {
+  width: var(--mode-switch-btn-size);
+  height: var(--mode-switch-btn-size);
+
+  border-radius: 12px;
+
+  position: absolute;
+
+  background-color: blue;
+
+  transition: left .2s;
+}
+
+.mode-switch-ind-left {
+  left: 3%;
+}
+
+.mode-switch-ind-center {
+  left: calc(49.5% - calc(var(--mode-switch-btn-size) / 2));
+}
+
+.mode-switch-ind-right {
+  left: calc(97% - var(--mode-switch-btn-size));
+}
+
+.mode-switch-img-cont {
+  position: absolute;
+  width: 94%;
+  height: var(--mode-switch-btn-size);
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.mode-switch-img {
+  width: var(--mode-switch-btn-size);
+  height: var(--mode-switch-btn-size);
 }
 
 .mode-switch-cont-web {
@@ -73,53 +148,14 @@
 .gui-settings {
   width: 100%;
   height: 100%;
+
+  background-color: var(--clr-element-hover);
+  opacity: .5;
+  transition: opacity .2s;
 }
 
-.mode-switch-label {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  font-size: 1.3rem;
-  font-weight: 300;
-  user-select: none;
-  height: 100%;
-  color: #aaa;
-  transition: color;
-}
-
-.mode-switch-btn-cont {
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.mode-switch-btn {
-  width: 40px;
-  height: 40px;
-  margin: 0 auto;
-  background-color: #8ebaed;
-  border-radius: 12px;
-
-  transition: height .2s, width .2s, border-radius .2s;
-}
-
-.mode-switch-btn:hover {
-  background-color: #6495cc;
-}
-
-.mode-switch-btn:active {
-  background-color: #507bad;
-}
-
-.mode-toggled {
-  height: 50px;
-  width: 50px;
-  border-radius: 15px;
-  background-color: #6495cc;
+.gui-settings:hover {
+  opacity: 1;
 }
 
 .numpad-key {
@@ -153,14 +189,8 @@
   height: 4rem;
 }
 
-img {
-  height: 100%;
-  user-select: none;
-}
-
 :root {
   font-size: 62.5%;
-  --gui-width: 19rem;
-  --gui-height: 430px;
+  --mode-switch-btn-size: 5rem;
   --numpad-key-size: 5.5rem;
 }
