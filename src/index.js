@@ -63,9 +63,6 @@ function Game(){
   }
 
   function setValues(i) {
-    //Change Write MODE
-    
-
     let new_grid = [];
 
     for(let k = 0; k < grid.length; k++){
@@ -150,17 +147,7 @@ function Game(){
         setValues(null);
         break;
 
-      case 81:
-        setValues('q');
-        break;
 
-      case 87:
-        setValues('w');
-        break;
-
-      case 69:
-        setValues('e');
-        break;
 
       default:
         break;

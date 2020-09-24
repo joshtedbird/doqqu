@@ -46,6 +46,7 @@
 
 .gui-numpad:hover {
   opacity: 1;
+  box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
 }
 
 .gui-numpad-web {
@@ -79,6 +80,7 @@
 
 .mode-switch-cont:hover {
   opacity: 1;
+  box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
 }
 
 .mode-switch-btn {
@@ -91,8 +93,8 @@
   background-color: #e1e1e1;
 }
 
-.mode-switch-btn:hover {
-  background-color: #d8d8d8;
+.mode-switch-btn-hover {
+  background-color: #d1d1d1;
 }
 
 .mode-switch-ind {
@@ -103,7 +105,7 @@
 
   position: absolute;
 
-  background-color: blue;
+  background-color: var(--clr-btns-hover);
 
   transition: left .2s;
 }
@@ -134,6 +136,14 @@
   height: var(--mode-switch-btn-size);
 }
 
+#btn-left:hover {
+  background-color: #d8d8d8;
+}
+
+#mode-switch-img-left:hover ~ #btn-left {
+  background-color: #d8d8d8;
+}
+
 .mode-switch-cont-web {
   margin: 0 auto;
   grid-template-columns: repeat(3, 50px);
@@ -156,6 +166,7 @@
 
 .gui-settings:hover {
   opacity: 1;
+  box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
 }
 
 .numpad-key {
@@ -167,7 +178,7 @@
   height: 100%;
 
   transition: opacity .2s;
-  background-color: #8ebaed;
+  background-color: var(--clr-btns);
   color: white;
 
   font-size: 2rem;
@@ -177,11 +188,11 @@
 }
 
 .numpad-key:hover {
-  background-color: #6495cc;
+  background-color: var(--clr-btns-hover);
 }
 
 .numpad-key:active {
-  background-color: #507bad;
+  background-color: var(--clr-btns-active);
 }
 
 .numpad-key-del {

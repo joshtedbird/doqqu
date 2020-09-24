@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './gui.css';
 import gui_del from './assets/gui_delete.svg';
 import gui_norm from './assets/gui_norm.svg';
@@ -71,12 +71,8 @@ function WriteToggle({web, toggleMode}){
   const POS_CENTER = ' mode-switch-ind-center';
   const POS_RIGHT = ' mode-switch-ind-right';
 
-
-  const [norm_style, changeNorm] = useState(true);
-  const [corn_style, changeCorn] = useState(false);
-  const [cent_style, changeCent] = useState(false);
-  const [ind_pos, changeIndPos] = useState(POS_LEFT)
-  const [active, changeActive] = useState(false);
+  const [ind_pos, changeIndPos] = useState(POS_LEFT);
+  const [hover_pos, changeHover] = useState('');
 
   function handleClick(event){
     let m = event.target.id;
@@ -87,73 +83,71 @@ function WriteToggle({web, toggleMode}){
 
   function changeMode(m){
     if(m === NORM){
-      changeNorm(true);
-      changeCorn(false);
-      changeCent(false);
       changeIndPos(POS_LEFT);
     }else if(m === CORN){
-      changeNorm(false);
-      changeCorn(true);
-      changeCent(false);
       changeIndPos(POS_CENTER);
     }else if(m === CENT){
-      changeNorm(false);
-      changeCorn(false);
-      changeCent(true);
       changeIndPos(POS_RIGHT);
     }
   }
 
-  function handleEnter(){
-    changeActive(true);
+  function handleHover(e){
+    let p = e.target.id;
+
+    changeHover(p);
   }
 
-  function handleLeave(){
-    changeActive(false);
+  function handleExit(e){
+    changeHover('');
   }
+
+  function keyDown(e){
+    let code = e.keyCode;
+     switch(code){
+       //Q
+       case 81:
+         changeMode(NORM);
+         toggleMode(NORM);
+         break;
+
+       //W
+       case 87:
+         changeMode(CORN);
+         toggleMode(CORN);
+         break;
+
+       //E
+       case 69:
+         changeMode(CENT);
+         toggleMode(CENT);
+         break;
+    }
+  }
+
+  useEffect(() => {
+    // initiate the event handler
+    document.addEventListener('keydown', keyDown);
+
+
+    // this will clean up the event every time the component is re-rendered
+    return function cleanup() {
+      document.removeEventListener('keydown', keyDown);
+    };
+  });
 
   return(
-    <div className = 'mode-switch-cont' onMouseOver = {handleEnter} onMouseLeave = {handleLeave}>
-      <div className = {(active? 'mode-switch-btn-active':'') + ' mode-switch-btn'} id = {NORM} onClick = {handleClick}> </div>
-      <div className = {(active? 'mode-switch-btn-active':'') + ' mode-switch-btn'} id = {CORN} onClick = {handleClick}> </div>
-      <div className = {(active? 'mode-switch-btn-active':'') + ' mode-switch-btn'} id = {CENT} onClick = {handleClick}> </div>
+    <div className = 'mode-switch-cont'>
+      <div className = {((hover_pos === NORM)? 'mode-switch-btn-hover ':'') + 'mode-switch-btn'}> </div>
+      <div className = {((hover_pos === CORN)? 'mode-switch-btn-hover ':'') + 'mode-switch-btn'}> </div>
+      <div className = {((hover_pos === CENT)? 'mode-switch-btn-hover ':'') + 'mode-switch-btn'}> </div>
       <div className = {'mode-switch-ind' + ind_pos}> </div>
       <div className = "mode-switch-img-cont">
-        <img src = {gui_norm} alt = "" className = "mode-switch-img" id = {NORM} onClick = {handleClick}/>
-        <img src = {gui_corn} alt = "" className = "mode-switch-img" id = {CORN} onClick = {handleClick}/>
-        <img src = {gui_cent} alt = "" className = "mode-switch-img" id = {CENT} onClick = {handleClick}/>
+        <img src = {gui_norm} alt = "" className = "mode-switch-img" id = {NORM} onClick = {handleClick} onMouseEnter = {handleHover} onMouseLeave = {handleExit}/>
+        <img src = {gui_corn} alt = "" className = "mode-switch-img" id = {CORN} onClick = {handleClick} onMouseEnter = {handleHover} onMouseLeave = {handleExit}/>
+        <img src = {gui_cent} alt = "" className = "mode-switch-img" id = {CENT} onClick = {handleClick} onMouseEnter = {handleHover} onMouseLeave = {handleExit}/>
       </div>
     </div>
   );
 }
-
-//OLD WRITE TOGGLE COMPONENT
-// <div className = {(web? 'mode-switch-cont-web':'mode-switch-cont-mobile') + ' mode-switch-cont'}>
-//   <div className = 'mode-switch-btn-cont'>
-//     <div className = {(norm_style? ' mode-toggled': '') + ' mode-switch-btn'} >
-//
-//     </div>
-//   </div>
-//   <div className = 'mode-switch-btn-cont'>
-//     <div className = {(corn_style? ' mode-toggled': '') + ' mode-switch-btn'} >
-//
-//     </div>
-//   </div>
-//   <div className = 'mode-switch-btn-cont'>
-//     <div className = {(cent_style? ' mode-toggled': '') + ' mode-switch-btn'}>
-//
-//     </div>
-//   </div>
-// </div>
-
-// <div className = {'mode-switch-label'}>
-//   {'normal'}
-// </div>
-// <div className = {'mode-switch-label'}>
-//   {'corner'}
-// </div>
-// <div className = {'mode-switch-label'}>
-//   {'center'}
-// </div>
 
 export default Gui;

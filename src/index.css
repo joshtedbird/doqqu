@@ -54,6 +54,7 @@ body {
 
 .grid-header:hover {
   background-color: var(--clr-element-hover);
+  box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
 }
 
 .grid-container {
@@ -72,7 +73,13 @@ body {
 
   background-color: var(--clr-grid);
 
+  transition: box-shadow .2s;
+
   z-index: 5;
+}
+
+.grid-container:hover {
+  box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
 }
 
 .sub-container {
@@ -89,7 +96,7 @@ body {
   align-items: center;
   justify-content: center;
 
-  color: var(--clr-font-secondary);
+  color: var(--clr-btns-hover);
   font-size: 3.5rem;
 
   user-select: none;
@@ -147,6 +154,9 @@ body {
   --clr-highlight: #FFE4AA;
   --clr-element-hover: #f1f1f1;
   --clr-element: #f8f8f8;
+  --clr-btns-hover: #2f5dad;
+  --clr-btns: #3870d1;
+  --clr-btns-active: #24498a;
 
   --clr-font-main: #333;
   --clr-font-secondary: #5885b0;
