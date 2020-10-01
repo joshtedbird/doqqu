@@ -1,33 +1,30 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './gui.css';
 import gui_del from './assets/gui_delete.svg';
 import gui_norm from './assets/gui_norm.svg';
 import gui_cent from './assets/gui_cent.svg';
 import gui_corn from './assets/gui_corn.svg';
 
-function Gui({numPressed, clickReg, toggleWriteMode}){
-  const [web, changeDisplay] = useState(true);
+function Gui({numPressed, clickReg, toggleWriteMode, sudokuRestart}){
 
   return(
-    <div className = {web? 'game-gui-floater': ''}>
-      <div
-      className = {(web? 'game-gui-layout-web': 'game-gui-layout-mobile') + ' game-gui'}
-      >
-        <Numpad web = {web} pressed = {numPressed}/>
-        <WriteToggle web = {web} toggleMode = {toggleWriteMode}/>
-        <div className = 'gui-settings'> {'settings yall'} </div>
+    <div className = 'game-gui-floater'>
+      <div className = 'game-gui'>
+        <Numpad pressed = {numPressed}/>
+        <WriteToggle toggleMode = {toggleWriteMode}/>
+        <Settings sudokuRestart = {sudokuRestart}/>
       </div>
     </div>
   );
 }
 
-function Numpad({web, pressed, onButtonClick}) {
+function Numpad({pressed, onButtonClick}) {
   function handleClick(event){
     pressed(event.target.id);
   }
 
   return(
-    <div className = {(web? 'gui-numpad-web':'gui-numpad-mobile') + ' gui-numpad'}>
+    <div className = 'gui-numpad'>
       <div className = 'numpad-key' id = {1} onClick = {handleClick}>
       1
       </div>
@@ -55,14 +52,14 @@ function Numpad({web, pressed, onButtonClick}) {
       <div className = 'numpad-key' id = {9} onClick = {handleClick}>
       9
       </div>
-      <div className = {(web? 'numpad-key-del':'') + ' numpad-key'}  id = {0} onClick = {handleClick}>
+      <div className = 'settings-btn numpad-key-del' id = {0} onClick = {handleClick}>
        <img src = {gui_del} alt = "" id = {0} onClick = {handleClick}/>
       </div>
     </div>
   );
 }
 
-function WriteToggle({web, toggleMode}){
+function WriteToggle({toggleMode}){
   const NORM = 'norm';
   const CORN = 'corn';
   const CENT = 'cent';
@@ -149,5 +146,52 @@ function WriteToggle({web, toggleMode}){
     </div>
   );
 }
+
+function Settings({sudokuRestart}){
+  const [checkRestart, changeRestartConfirm] = useState('idle');
+  const restartRef = useRef(null);
+  useOutsideAlerter(restartRef);
+
+  function restartClick(){
+    if(checkRestart === 'idle'){
+      changeRestartConfirm('confirm');
+    }else if(checkRestart === 'confirm'){
+      changeRestartConfirm('idle');
+      sudokuRestart();
+    }
+  }
+
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          changeRestartConfirm('idle');
+        }
+      }
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [checkRestart]);
+  }
+
+  return(
+    <div className = 'gui-settings' id = 'flex-settings-mob'>
+      <div className = 'settings-btn' id = 'undo'> {'U'} </div>
+      <div className = 'settings-btn' id = 'redo'> {'R'} </div>
+      <div className = 'gui-settings-spacer'></div>
+      <div className = {'gui-settings-btn-full ' + ((checkRestart === 'idle')? 'settings-btn':'restart-btn')}
+           id = 'restart'
+           onClick = {restartClick}
+           ref = {restartRef}>
+           {(checkRestart === 'idle')? 'Restart':'Confirm'}
+      </div>
+      <div className = {'gui-settings-btn-full settings-btn'} id = 'new_game'> {'New Game'} </div>
+    </div>
+  );
+}
+
+
 
 export default Gui;

@@ -11,61 +11,30 @@
 .game-gui {
   display: grid;
   z-index: 10;
-}
-
-.game-gui-layout-web {
   position: absolute;
+  width: var(--game-gui-width);
   margin-left: 50px;
   gap: 20px;
   height: var(--gui-height);
-  grid-template-columns: auto;
-  grid-template-rows: calc(var(--numpad-key-size) * 4 + 20px) 80px 80px;
-}
-
-.game-gui-layout-mobile {
-  width: calc(10 * (var(--numpad-key-size) - 5px) + 4.5rem);
-  margin-top: 10px;
-  position: relative;
-  gap: 20px;
-  grid-template-columns: 190px calc((10 * (var(--numpad-key-size) - 5px) + 4.5rem) - 195px);
-  grid-template-rows: calc(var(--numpad-key-size) - 5px) 80px;
-  margin-left: auto;
-  margin-right: auto;
+  grid-template-columns: var(--game-gui-width);
+  grid-template-rows: calc(var(--numpad-key-size) * 4 + 20px) calc(var(--mode-switch-btn-size) + 10px) auto;
 }
 
 .gui-numpad {
   display: grid;
   padding: 5px;
   background-color: var(--clr-element);
-  height: calc(4 * var(--numpad-key-size) + 15px);
-  background-color: var(--clr-element-hover);
-  opacity: .5;
-  transition: opacity .2s;
   border-radius: 12px;
-}
-
-.gui-numpad:hover {
-  opacity: 1;
-  box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
-}
-
-.gui-numpad-web {
   gap: 1rem;
-  grid-template-columns: repeat(3, var(--numpad-key-size));
-  grid-template-rows: repeat(4, var(--numpad-key-size));
-}
-
-.gui-numpad-mobile {
-  gap: 0.5rem;
-  grid-column: 1 / span 2;
-  grid-template-columns: repeat(10, calc(var(--numpad-key-size) - 5px));
-  grid-template-rows: calc(var(--numpad-key-size) - 5px);
+  grid-template-columns: repeat(3, var(--numpad-key-width));
+  grid-template-rows: repeat(4, var(--numpad-key-height));
+  height: calc(4 * var(--numpad-key-height) + 15px);
+  font-size: 2rem;
 }
 
 .mode-switch-cont {
-  margin: 0 auto;
-  padding: 3%;
-  width: 94%;
+  padding: 0.5rem;
+  width: calc(var(--game-gui-width) - 10px);
   height: var(--mode-switch-btn-size);
 
   border-radius: 14px;
@@ -73,14 +42,7 @@
   display: flex;
   justify-content: space-between;
 
-  background-color: var(--clr-element-hover);
-  opacity: .5;
-  transition: opacity .2s;
-}
-
-.mode-switch-cont:hover {
-  opacity: 1;
-  box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+  background-color: var(--clr-element);
 }
 
 .mode-switch-btn {
@@ -105,26 +67,26 @@
 
   position: absolute;
 
-  background-color: var(--clr-btns-hover);
+  background-color: var(--clr-btns);
 
   transition: left .2s;
 }
 
 .mode-switch-ind-left {
-  left: 3%;
+  left: 5px;
 }
 
 .mode-switch-ind-center {
-  left: calc(49.5% - calc(var(--mode-switch-btn-size) / 2));
+  left: calc((var(--game-gui-width) / 2) - (var(--mode-switch-btn-size) / 2));
 }
 
 .mode-switch-ind-right {
-  left: calc(97% - var(--mode-switch-btn-size));
+  left: calc(var(--game-gui-width) - var(--mode-switch-btn-size) - 5px);
 }
 
 .mode-switch-img-cont {
   position: absolute;
-  width: 94%;
+  width: calc(var(--game-gui-width) - 10px);
   height: var(--mode-switch-btn-size);
 
   display: flex;
@@ -136,40 +98,28 @@
   height: var(--mode-switch-btn-size);
 }
 
-#btn-left:hover {
-  background-color: #d8d8d8;
-}
-
-#mode-switch-img-left:hover ~ #btn-left {
-  background-color: #d8d8d8;
-}
-
-.mode-switch-cont-web {
-  margin: 0 auto;
-  grid-template-columns: repeat(3, 50px);
-  grid-template-rows: 50px 30px;
-}
-
-.mode-switch-cont-mobile {
-  grid-template-columns: repeat(3, 50px);
-  grid-template-rows: 50px;
-}
-
 .gui-settings {
-  width: 100%;
-  height: 100%;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
 
-  background-color: var(--clr-element-hover);
-  opacity: .5;
-  transition: opacity .2s;
+  border-radius: 14px;
+  padding: 5px;
+
+  background-color: var(--clr-element);
+  display: grid;
+
+  /*  WEB SETTINGS */
+  font-size: 2rem;
+  gap: 8px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: var(--settings-btn-height) 1px var(--settings-btn-height) var(--settings-btn-height);
 }
 
-.gui-settings:hover {
-  opacity: 1;
-  box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+.gui-settings-btn-full {
+  grid-column: span 2;
 }
 
-.numpad-key {
+.restart-btn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -177,14 +127,59 @@
   width: 100%;
   height: 100%;
 
-  transition: opacity .2s;
-  background-color: var(--clr-btns);
+  background-color: red;
   color: white;
 
-  font-size: 2rem;
   user-select: none;
 
   border-radius: 1rem;
+}
+
+.gui-settings-spacer {
+  width: 100%;
+  height: 100%;
+}
+
+.numpad-key {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: var(--numpad-key-width);
+  height: var(--numpad-key-height);
+
+  background-color: var(--clr-btns);
+  color: white;
+
+
+  user-select: none;
+
+  border-radius: 1rem;
+}
+
+.settings-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+
+  background-color: var(--clr-btns);
+  color: white;
+
+
+  user-select: none;
+
+  border-radius: 1rem;
+}
+
+.settings-btn:hover {
+  background-color: var(--clr-btns-hover);
+}
+
+.settings-btn:active {
+  background-color: var(--clr-btns-active);
 }
 
 .numpad-key:hover {
@@ -196,12 +191,53 @@
 }
 
 .numpad-key-del {
-  width: calc(calc(var(--numpad-key-size) * 3) + 2rem);
+  grid-column: span 3;
   height: 4rem;
 }
 
-:root {
-  font-size: 62.5%;
-  --mode-switch-btn-size: 5rem;
-  --numpad-key-size: 5.5rem;
+@media screen and (max-width: 40rem){
+  .gui-numpad {
+    gap: 0.4rem;
+    grid-column: 1 / span 2;
+    width: calc(100% - 4px);
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    height: var(--numpad-key-height);
+  }
+  .game-gui {
+    width: 98vw;
+    margin-top: 40px;
+    position: relative;
+    row-gap: 5px;
+    column-gap: 5px;
+    grid-template-columns: var(--game-gui-width) calc(100% - var(--game-gui-width) - 10px);
+    grid-template-rows: calc(var(--numpad-key-height) - 5px) calc(var(--mode-switch-btn-height) + 10px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .game-gui-floater {
+    margin: 0;
+
+    width: auto;
+    height: auto;
+  }
+  .numpad-key-del {
+    width: var(--numpad-key-width);
+    height: var(--numpad-key-height);
+  }
+  .gui-settings {
+    width: calc(100% - 0.4rem);
+    gap: 2%;
+    grid-template-columns: 18% 18% 29% 29%;
+    grid-template-rows: 100%;
+    font-size: 1.5rem;
+  }
+  .gui-settings-btn-full {
+    grid-column: span 1;
+  }
+  .gui-settings-spacer {
+    display: none;
+  }
 }

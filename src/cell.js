@@ -9,6 +9,8 @@ function Cell({cell, mouseEnter, mouseDown}) {
 
   if(cell.selected){
     cname = 'cell-selected';
+  }else if(cell.sub_selected){
+    cname = 'cell-sub-selected';
   }else{
     cname = 'cell';
   }

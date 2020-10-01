@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import './gui.css';
@@ -16,6 +16,9 @@ function Game(){
   const [selectToggle, setToggle] = useState(false);
   const [selectToggleHeld, setToggleHeld] = useState(false);
   const [writeMode, setWriteMode] = useState(MODE_NORM);
+  const [paused, togglePaused] = useState(false);
+  const [seconds, setSeconds] = useState(0);
+  const [interval, doInterval] = useState();
 
   function addSelected(i, firstClick){
     setActiveCell(i);
@@ -41,17 +44,36 @@ function Game(){
     }
 
     if(activeCell !== null){
+      highlightOtherNums(activeCell);
       addSelected(activeCell, true);
+
       setToggle(true);
     }
   }
 
-  function outClick() {
-    console.log("we got it");
+  function highlightOtherNums(c) {
+    if(grid[c].value){
+      let v = grid[c].value;
+      let grid_cpy = grid.slice();
+      for(let i = 0; i < grid.length; i++){
+        if(grid[i].value === v && (i !== c)){
+          grid_cpy[i].sub_selected = true;
+        }
+      }
+      setGrid(grid_cpy);
+    }else{
+      return;
+    }
   }
 
   function clearSelection(){
-    setGrid(grid.map(cell => ({...cell, selected: false})));
+    let grid_cpy = grid.slice();
+
+    for(let i = 0; i < grid_cpy.length; i++){
+      grid_cpy[i].selected = false;
+      grid_cpy[i].sub_selected = false;
+    }
+    setGrid(grid_cpy);
   }
 
   function mouseLift(){
@@ -167,17 +189,56 @@ function Game(){
   }
 
   function numpadPress(i){
-    console.log(i);
-
-    if(i === '0'){
+    let n = parseInt(i);
+    if(n === 0){
       setValues(null);
     }else{
-      setValues(i);
+      setValues(n);
     }
   }
 
   function toggleWriteMode(m){
     setWriteMode(m);
+  }
+
+  function sudokuRestart(){
+    let new_grid = [];
+
+    for(let k = 0; k < grid.length; k++){
+      new_grid.push(grid[k]);
+      if(grid[k].locked === false){
+        new_grid[k].value = null;
+        new_grid[k].pm_corner = [];
+        new_grid[k].pm_center = [];
+      }
+    }
+
+    clearSelection();
+    setGrid(new_grid);
+
+    setSeconds(0);
+    togglePaused(false);
+  }
+
+  function handlePause(){
+    if(paused){
+      togglePaused(false);
+    }else{
+      togglePaused(true);
+    }
+  }
+
+  useEffect(() => {
+    if(paused){
+      clearInterval(interval);
+      doInterval(undefined);
+    }else{
+      doInterval(setInterval(tick, 1000));
+    }
+  }, [paused]);
+
+  function tick() {
+      setSeconds((prevSeconds) => prevSeconds + 1);
   }
 
   useEffect(() => {
@@ -197,20 +258,21 @@ function Game(){
 
   //RENDER
   return(
-    <div>
+    <div className = 'window-cont'>
       <div className = 'wrapper'>
-        <Timer />
+        <Timer pause = {handlePause} seconds = {seconds}/>
         <Grid
           grid = {grid}
           handleSelect = {addSelected}
           handleMouseDown = {clicked}
           handleMouseUp = {mouseLift}
           gridExit = {gridLeave}
+          paused = {paused}
         />
         <Gui
           numPressed = {numpadPress}
           toggleWriteMode = {toggleWriteMode}
-          clickReg = {outClick}
+          sudokuRestart = {sudokuRestart}
         />
       </div>
       <div className = 'click-collector' onMouseDown = {clicked}>
@@ -219,12 +281,14 @@ function Game(){
   );
 }
 
-function Timer() {
-  const [paused, togglePause] = useState(false);
+function Timer({seconds, pause}) {
+  let disp_seconds = seconds % 60;
+  let minutes = Math.floor(seconds / 60);
 
+  const duration = minutes + ':' + (disp_seconds < 10 ? '0' + disp_seconds: disp_seconds);
   return(
-    <div className = "grid-header" onClick = {togglePause}>
-      12:34
+    <div className = "grid-header" onClick = {pause}>
+      {duration}
     </div>
   );
 }
@@ -236,6 +300,7 @@ function populateGrid(){
     let new_cell = {
       value: null,
       selected: false,
+      sub_highlight: false,
       pm_corner: [],
       pm_center: [],
       locked: false,
