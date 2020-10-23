@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import './gui.css';
@@ -19,6 +19,8 @@ function Game(){
   const [paused, togglePaused] = useState(false);
   const [seconds, setSeconds] = useState(0);
   const [interval, doInterval] = useState();
+
+  const [history, changeHistory] = useState([]);
 
   function addSelected(i, firstClick){
     setActiveCell(i);
@@ -87,9 +89,18 @@ function Game(){
   function setValues(i) {
     let new_grid = [];
 
+    let cells_pre = [];
+
+
     for(let k = 0; k < grid.length; k++){
+      let cell = {
+        ...grid[k],
+        pm_center: [...grid[k].pm_center],
+        pm_corner: [...grid[k].pm_corner]
+      }
       new_grid.push(grid[k]);
-      if(grid[k].selected && !grid[k].locked){
+      if(grid[k].selected && !cell.locked){
+        cells_pre.push([k, cell]);
         //DELETE
         if(!i){
           if(new_grid[k].value){
@@ -116,6 +127,11 @@ function Game(){
         }
       }
     }
+
+    let hist_stor = history;
+    hist_stor.push(cells_pre);
+    changeHistory(hist_stor);
+    console.log(hist_stor);
 
     setGrid(new_grid);
   }
@@ -189,10 +205,10 @@ function Game(){
   }
 
   function numpadPress(i){
-    let n = parseInt(i);
-    if(n === 0){
+    if(i === 'delete'){
       setValues(null);
     }else{
+      let n = parseInt(i);
       setValues(n);
     }
   }
@@ -228,6 +244,30 @@ function Game(){
     }
   }
 
+  function undo(){
+    if(history.length){
+      let hist_stor = history.slice();
+      let len = history.length;
+      let move = history[len - 1];
+      console.log(move);
+
+      let new_grid = grid.slice();
+
+      for(let i = 0; i < move.length; i++){
+        new_grid[move[i][0]] = move[i][1];
+        new_grid[move[i][0]].selected = false;
+      }
+
+      hist_stor.pop();
+      changeHistory(hist_stor);
+      setGrid(new_grid);
+    }else{
+      return;
+    }
+
+
+  }
+
   useEffect(() => {
     if(paused){
       clearInterval(interval);
@@ -258,21 +298,25 @@ function Game(){
 
   //RENDER
   return(
-    <div className = 'window-cont'>
+    <div id = 'window-cont'>
+      <PageHeader />
+
       <div className = 'wrapper'>
-        <Timer pause = {handlePause} seconds = {seconds}/>
-        <Grid
-          grid = {grid}
-          handleSelect = {addSelected}
-          handleMouseDown = {clicked}
-          handleMouseUp = {mouseLift}
-          gridExit = {gridLeave}
-          paused = {paused}
-        />
+        <div className = 'game-cont'>
+          <GridHeader pause = {handlePause} seconds = {seconds}/>
+          <Grid
+            grid = {grid}
+            handleSelect = {addSelected}
+            handleMouseDown = {clicked}
+            handleMouseUp = {mouseLift}
+            gridExit = {gridLeave}
+            paused = {paused}
+          />
+        </div>
         <Gui
           numPressed = {numpadPress}
           toggleWriteMode = {toggleWriteMode}
-          sudokuRestart = {sudokuRestart}
+          undo = {undo}
         />
       </div>
       <div className = 'click-collector' onMouseDown = {clicked}>
@@ -281,17 +325,113 @@ function Game(){
   );
 }
 
-function Timer({seconds, pause}) {
+function PageHeader(){
+  const [menuToggled, changeMenuToggle] = useState(false);
+
+  function menuClick(){
+    if(menuToggled){
+      changeMenuToggle(false);
+    }else{
+      changeMenuToggle(true);
+    }
+  }
+
+  function menuClose(){
+    return;
+  }
+
+  return(
+    <div>
+      <div className = 'page-header'>
+        {'Doqqu'}
+        <div className = 'settings-menu-btn' onClick = {menuToggled? menuClose:menuClick}>
+          {'S'}
+        </div>
+      </div>
+      <Menu toggled = {menuToggled} menuToggle = {menuClick}/>
+    </div>
+  );
+}
+
+function Menu({toggled, menuToggle}){
+  const [nightMode, nightModeToggle] = useState(false);
+  const [checkRestart, toggleRestart] = useState('idle');
+  const menuRef = useRef();
+  useOutsideAlerter(menuRef);
+
+  function nightToggleClick(){
+    if(nightMode){
+      nightModeToggle(false);
+    }else{
+      nightModeToggle(true);
+    }
+  }
+
+  function restartClick(){
+    if(checkRestart === 'idle'){
+      toggleRestart('confirm');
+    }
+  }
+
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          console.log(toggled);
+          if(checkRestart === 'confirm'){
+            toggleRestart('idle');
+          }else if(toggled){
+
+            menuToggle();
+          }
+        }
+      }
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [checkRestart, toggled]);
+  }
+
+  return(
+    <div className = {(toggled? '':'menu-cont-hidden ') + 'menu-cont'} ref = {menuRef}>
+      <div className = {'menu-btn ' + ((checkRestart === 'idle')? '':'menu-btn-confirm')}
+           id = 'restart'
+           onClick = {restartClick}
+           >
+           {(checkRestart === 'idle')? 'Restart':'Confirm'}
+      </div>
+      <div className = 'menu-btn'> {'New Game'} </div>
+      <div className = 'menu-night-toggle-cont'>
+        {'Night Mode:'}
+        <div className = 'menu-night-toggle' onClick = {nightToggleClick}>
+          <div className = {(nightMode? 'menu-night-toggle-selector-active ':'') + 'menu-night-toggle-selector'}></div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function GridHeader({seconds, pause}) {
   let disp_seconds = seconds % 60;
   let minutes = Math.floor(seconds / 60);
 
   const duration = minutes + ':' + (disp_seconds < 10 ? '0' + disp_seconds: disp_seconds);
   return(
-    <div className = "grid-header" onClick = {pause}>
-      {duration}
+    <div className = 'grid-header'>
+      <div className = 'header-info-cont'>
+      </div>
+      <div className = "timer" onClick = {pause}>
+        {duration}
+      </div>
+      <div className = 'header-info-cont'>
+        {'Medium \n xC94ewtgj4'}
+      </div>
     </div>
   );
 }
+
 
 function populateGrid(){
   let grid_arr = [];

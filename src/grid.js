@@ -9,7 +9,7 @@ function Grid({paused, handleSelect, handleMouseDown, grid, gridExit}){
              handleMouseDown = {handleMouseDown}
              grid = {grid}
       />
-      {paused? <PausePlate />:''}
+      <PausePlate paused = {paused}/>
     </div>
   );
 }
@@ -31,9 +31,9 @@ function Boxes({handleSelect, handleMouseDown, grid}) {
   );
 }
 
-function PausePlate() {
+function PausePlate({paused}) {
   return(
-    <div className = 'pause-plate'>
+    <div className = {(paused? 'pause-plate-disp ':'') + 'pause-plate'}>
       {'Press the timer to continue playing'}
     </div>
   );
