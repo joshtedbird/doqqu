@@ -4,7 +4,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap');
 
 body {
-  background-color: var(--clr-bg);
+  background-color: var(--clr-surface-1);
   padding: 0;
   margin: 0;
 }
@@ -29,7 +29,7 @@ body {
   padding-right: 3rem;
   height: var(--page-header-height);
   top: 0px;
-  background-color: var(--clr-btns);
+  background-color: var(--clr-primary);
 
   display: flex;
   align-items: center;
@@ -70,7 +70,7 @@ body {
   right: 1rem;
 
   width: 20rem;
-  background-color: white;
+  background-color: var(--clr-surface-3);
   height: 13rem;
 
   border-radius: 0px 0px 10px 10px;
@@ -109,13 +109,13 @@ body {
   font-family: 'Lato', sans-serif;
   font-size: 1.5rem;
   font-weight: 400;
-  color: var(--clr-font-main);
+  color: var(--clr-element-2);
 
   transition: background-color .2s;
 }
 
 .menu-btn:hover {
-  background-color: #f6f6f6;
+  background-color: var(--clr-surface-2);
 }
 
 .menu-btn-confirm {
@@ -141,13 +141,13 @@ body {
   font-family: 'Lato', sans-serif;
   font-size: 1.2rem;
   font-weight: 400;
-  color: #aaa;
+  color: var(--clr-element-3);
 }
 
 .menu-night-toggle {
   width: 6rem;
   height: 3rem;
-  background-color: white;
+  background-color: var(--clr-surface-3);
   border-radius: 2rem;
   border: solid 1px #ddd;
 
@@ -156,7 +156,7 @@ body {
 }
 
 .menu-night-toggle:hover {
-  background-color: var(--clr-element);
+  background-color: var(--clr-surface-2);
 }
 
 .menu-night-toggle-selector {
@@ -170,7 +170,7 @@ body {
 }
 
 .menu-night-toggle-selector-active {
-  background-color: var(--clr-btns);
+  background-color: var(--clr-primary);
   margin-left: calc(6rem - 2.6rem - 0.2rem);
 }
 
@@ -189,7 +189,7 @@ body {
 }
 
 .game-cont {
-  width: calc(var(--sudoku-size) + 15px);
+  width: calc(var(--sudoku-size) + 14px);
 }
 
 .grid-header {
@@ -212,20 +212,16 @@ body {
   z-index: 2;
 
   font-size: 2.5rem;
-  color: var(--clr-font-timer);
+  color: var(--clr-element-1);
 
-  background-color: var(--clr-element);
+  background-color: var(--clr-surface-3);
   box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.1);
 
   user-select: none;
 }
 
 .timer:hover {
-  background-color: var(--clr-element-hover);
-}
-
-.timer:active {
-  background-color: var(--clr-element-active);
+  background-color: var(--clr-surface-2);
 }
 
 .header-info-cont {
@@ -235,7 +231,7 @@ body {
   display: flex;
   justify-content: flex-end;
 
-  color: #aaa;
+  color: var(--clr-element-3);
   font-size: 1.1rem;
   line-height: 1.5rem;
   text-align: right;
@@ -257,7 +253,7 @@ body {
   border-radius: 7px;
   overflow: hidden;
 
-  background-color: var(--clr-grid);
+  background-color: var(--clr-element-3);
   box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.2);
 
   z-index: 5;
@@ -269,7 +265,7 @@ body {
   grid-template-rows: repeat(3, var(--cell-size));
   gap: 1px;
 
-  background-color: var(--clr-grid);
+  background-color: var(--clr-element-3);
 }
 
 .cell , .cell-selected, .cell-locked, .cell-sub-selected {
@@ -277,12 +273,12 @@ body {
   align-items: center;
   justify-content: center;
 
-  color: var(--clr-btns-hover);
+  color: var(--clr-secondary);
   font-size: var(--cell-font-size);
 
   user-select: none;
 
-  background-color: var(--clr-cell);
+  background-color: var(--clr-surface-3);
 }
 
 .cell-corners-cont {
@@ -310,19 +306,19 @@ body {
 }
 
 .cell:hover {
-  background-color: var(--clr-grid-hover);
+  background-color: var(--clr-surface-2);
 }
 
 .cell-selected {
-  background-color: var(--clr-highlight);
+  background-color: var(--clr-tertiary);
 }
 
 .cell-sub-selected {
-  background-color: var(--clr-grid-hover);
+  background-color: var(--clr-surface-2);
 }
 
 .cell-locked {
-  color: var(--clr-font-main);
+  color: var(--clr-element-1);
 }
 
 .pause-plate {
@@ -331,7 +327,7 @@ body {
   left: 0px;
   width: calc(var(--sudoku-size) + 10px);
   height: calc(var(--sudoku-size) + 10px);
-  background-color: var(--clr-element);
+  background-color: var(--clr-surface-3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -348,16 +344,33 @@ body {
   opacity: 1;
 }
 
+.img-invert {
+  filter: invert();
+}
+
+img {
+  max-width: 100%;
+  max-width: 100%;
+}
+
+.img-settings {
+  filter: invert() brightness(var(--brightness-val));
+  max-width: 80%;
+  max-height: 80%;
+}
+
+
+
 :root {
   font-size: 62.5%;
   --cell-size: 6rem;
   --box-size: calc(var(--cell-size) * 3);
   --sudoku-size: calc(var(--cell-size) * 9);
   --mode-switch-btn-size: 5rem;
-  --numpad-key-height: 5.5rem;
-  --numpad-key-width: 5.5rem;
+  --numpad-key-height: 6.5rem;
+  --numpad-key-width: 6.5rem;
   --game-gui-width: 19.5rem;
-  --settings-btn-height: 4.5rem;
+  --settings-btn-height: 5.5rem;
   --page-header-height: 6rem;
 
   --cell-font-size: 3.5rem;
@@ -365,31 +378,52 @@ body {
   --cell-font-size-corner: 1.5rem;
 
   /* COLOUR SCHEMES  */
-  /* LIGHT MODE */
-  --clr-bg: #f1f1f1;
-  --clr-cell: #fff;
-  --clr-element-border: #ccc;
-  --clr-grid: #aaa;
-  --clr-grid-hover: #eee;
-  --clr-highlight: #FFE4AA;
-  --clr-element-hover: #efefef;
-  --clr-element: #fff;
-  --clr-element-active: #d1d1d1;
-  --clr-btns-hover: #2f5dad;
-  --clr-btns: #3870d1;
+  --clr-surface-1: #efefef;
+  --clr-surface-2: #f1f1f1;
+  --clr-surface-3: #fff;
+
+  --clr-element-1: #333;
+  --clr-element-2: #555;
+  --clr-element-3: #aaa;
+  --clr-element-4: #ccc;
+  --clr-element-5: #eee;
+
+
+  --clr-primary: #3870d1;
+  --clr-primary-2: #2f5dad;
+  --clr-secondary: #3870d1;
+  --clr-tertiary: #FFE4AA;
+
   --clr-btns-active: #24498a;
 
-  --clr-font-main: #333;
-  --clr-font-secondary: #5885b0;
-  --clr-font-timer: #555;
+  --brightness-val: 30%;
+
+}
+
+.dark-mode {
+  --clr-surface-1: #333;
+  --clr-surface-2: #666;
+  --clr-surface-3: #444;
+
+  --clr-element-1: #eee;
+  --clr-element-2: #ccc;
+  --clr-element-3: #999;
+  --clr-element-4: #777;
+  --clr-element-5: #666;
+
+  --clr-primary: #3a67b5;
+  --clr-secondary: #8ab0f2;
+  --clr-tertiary: #917c5c;
+
+  --brightness-val: 100%;
 }
 
 @media screen and (max-width: 40rem) {
   :root {
     --cell-size: 10.6vw;
     --mode-switch-btn-size: 4.5rem;
-    --numpad-key-height: 4.5rem;
-    --numpad-key-width: 10vw;
+    --numpad-key-height: 5.5rem;
+    --numpad-key-width: 11.1%;
     --game-gui-width: 18rem;
 
     --cell-font-size: 2.8rem;
@@ -420,15 +454,4 @@ body {
     --cell-font-size-center: 1.2rem;
     --cell-font-size-corner: 1rem;
   }
-}
-
- {
-  /* DARK MODE */
-  --clr-bg: #444;
-  --clr-grid: #ccc;
-  --clr-grid-hover: #aaa;
-  --clr-highlight: #FFE4AA;
-
-  --clr-font-main: #bbb;
-  --clr-font-secondary: #5475B3;
 }

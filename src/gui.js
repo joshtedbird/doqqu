@@ -1,6 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react';
 import './gui.css';
-import gui_del from './assets/gui_delete.svg';
+import gui_del from './assets/delete.png';
+
+import gui_undo from './assets/undo.png';
 import gui_norm from './assets/gui_norm.svg';
 import gui_cent from './assets/gui_cent.svg';
 import gui_corn from './assets/gui_corn.svg';
@@ -51,10 +53,10 @@ function Numpad({pressed, onButtonClick, undo}) {
       9
       </div>
       <div className = 'numpad-key numpad-key-del' id = 'delete' onClick = {handleClick}>
-       <img src = {gui_del} alt = "" id = {0} onClick = {handleClick}/>
+       <img src = {gui_del} alt = "" id = {0} onClick = {handleClick} className = 'img-settings'/>
       </div>
       <div className = 'numpad-key numpad-key-undo' id = {'undo'} onClick = {undo}>
-        {'U'}
+        <img src = {gui_undo} className = 'img-settings'/>
       </div>
     </div>
   );
@@ -186,9 +188,11 @@ function Settings({pressed, undo}){
   return(
     <div className = 'gui-settings' id = 'flex-settings-mob'>
       <div className = 'settings-btn' id = 'delete'>
-       <img src = {gui_del} alt = "" id = {0} onClick = {handleClick}/>
+       <img src = {gui_del} alt = "" id = {0} onClick = {handleClick} className = 'img-settings'/>
       </div>
-      <div className = 'settings-btn' id = 'undo' onClick = {undo}> {'U'} </div>
+      <div className = 'settings-btn' id = 'undo' onClick = {undo}>
+        <img src = {gui_undo} className = 'img-settings'/>
+      </div>
     </div>
   );
 }

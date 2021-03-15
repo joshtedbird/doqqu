@@ -5,6 +5,7 @@ import './gui.css';
 import Grid from './grid.js';
 import Gui from './gui.js';
 import {solveSudoku} from './sudoku-solver.js';
+import gui_hamburger from './assets/hamburger.png';
 
 function Game(){
   const MODE_NORM = 'norm';
@@ -299,7 +300,7 @@ function Game(){
   //RENDER
   return(
     <div id = 'window-cont'>
-      <PageHeader />
+      <PageHeader restartGame = {sudokuRestart}/>
 
       <div className = 'wrapper'>
         <div className = 'game-cont'>
@@ -325,7 +326,7 @@ function Game(){
   );
 }
 
-function PageHeader(){
+function PageHeader({restartGame}){
   const [menuToggled, changeMenuToggle] = useState(false);
 
   function menuClick(){
@@ -345,15 +346,15 @@ function PageHeader(){
       <div className = 'page-header'>
         {'Doqqu'}
         <div className = 'settings-menu-btn' onClick = {menuToggled? menuClose:menuClick}>
-          {'S'}
+          <img src = {gui_hamburger} className = 'img-invert'/>
         </div>
       </div>
-      <Menu toggled = {menuToggled} menuToggle = {menuClick}/>
+      <Menu toggled = {menuToggled} menuToggle = {menuClick} restartGame = {restartGame}/>
     </div>
   );
 }
 
-function Menu({toggled, menuToggle}){
+function Menu({toggled, menuToggle, restartGame}){
   const [nightMode, nightModeToggle] = useState(false);
   const [checkRestart, toggleRestart] = useState('idle');
   const menuRef = useRef();
@@ -361,8 +362,10 @@ function Menu({toggled, menuToggle}){
 
   function nightToggleClick(){
     if(nightMode){
+      document.body.classList.remove('dark-mode');
       nightModeToggle(false);
     }else{
+      document.body.classList.add('dark-mode');
       nightModeToggle(true);
     }
   }
@@ -370,6 +373,9 @@ function Menu({toggled, menuToggle}){
   function restartClick(){
     if(checkRestart === 'idle'){
       toggleRestart('confirm');
+    }else if(checkRestart === 'confirm'){
+      toggleRestart('idle');
+      restartGame();
     }
   }
 
