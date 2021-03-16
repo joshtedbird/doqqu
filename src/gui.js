@@ -25,28 +25,28 @@ function Numpad({pressed, onButtonClick, undo}) {
 
   return(
     <div className = 'gui-numpad'>
-      <div className = 'numpad-key' id = {'1'} onClick = {handleClick}>
+      <div className = 'numpad-key numpad-key-border' id = {'1'} onClick = {handleClick}>
       1
       </div>
-      <div className = 'numpad-key' id = {'2'} onClick = {handleClick}>
+      <div className = 'numpad-key numpad-key-border' id = {'2'} onClick = {handleClick}>
       2
       </div>
-      <div className = 'numpad-key' id = {'3'} onClick = {handleClick}>
+      <div className = 'numpad-key numpad-key-border' id = {'3'} onClick = {handleClick}>
       3
       </div>
-      <div className = 'numpad-key' id = {'4'} onClick = {handleClick}>
+      <div className = 'numpad-key numpad-key-border' id = {'4'} onClick = {handleClick}>
       4
       </div>
-      <div className = 'numpad-key' id = {'5'} onClick = {handleClick}>
+      <div className = 'numpad-key numpad-key-border' id = {'5'} onClick = {handleClick}>
       5
       </div>
-      <div className = 'numpad-key' id = {'6'} onClick = {handleClick}>
+      <div className = 'numpad-key numpad-key-border' id = {'6'} onClick = {handleClick}>
       6
       </div>
-      <div className = 'numpad-key' id = {'7'} onClick = {handleClick}>
+      <div className = 'numpad-key numpad-key-border' id = {'7'} onClick = {handleClick}>
       7
       </div>
-      <div className = 'numpad-key' id = {'8'} onClick = {handleClick}>
+      <div className = 'numpad-key numpad-key-border' id = {'8'} onClick = {handleClick}>
       8
       </div>
       <div className = 'numpad-key' id = {'9'} onClick = {handleClick}>

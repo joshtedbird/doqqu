@@ -379,6 +379,10 @@ function Menu({toggled, menuToggle, restartGame}){
     }
   }
 
+  function newGameClick(){
+    alert('Doqqu is currently in testing phase... \nonly one puzzle can currently be played\n\nmore puzzles coming soon!');
+  }
+
   function useOutsideAlerter(ref) {
     useEffect(() => {
       function handleClickOutside(event) {
@@ -408,7 +412,7 @@ function Menu({toggled, menuToggle, restartGame}){
            >
            {(checkRestart === 'idle')? 'Restart':'Confirm'}
       </div>
-      <div className = 'menu-btn'> {'New Game'} </div>
+      <div className = 'menu-btn' onClick = {newGameClick}> {'New Game'} </div>
       <div className = 'menu-night-toggle-cont'>
         {'Night Mode:'}
         <div className = 'menu-night-toggle' onClick = {nightToggleClick}>

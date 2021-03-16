@@ -71,11 +71,11 @@
 }
 
 .mode-switch-ind-center {
-  left: calc((var(--game-gui-width) / 2) - (var(--mode-switch-btn-size) / 2) - 5px);
+  left: calc(calc(var(--game-gui-width) - var(--mode-switch-btn-size) - 1rem) / 2);
 }
 
 .mode-switch-ind-right {
-  left: calc(var(--game-gui-width) - var(--mode-switch-btn-size) - 10px);
+  left: calc(var(--game-gui-width) - var(--mode-switch-btn-size) - 1rem);
 }
 
 .mode-switch-img-cont {
@@ -102,10 +102,10 @@
   background-color: var(--clr-surface-3);
   display: flex;
   justify-content: space-between;
+  box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.1);
 
   /*  WEB SETTINGS */
   display: none;
-
 }
 
 .numpad-key {
@@ -121,6 +121,11 @@
 
   user-select: none;
 }
+
+.numpad-key-border {
+  border-right: 0rem solid;
+}
+
 
 .settings-btn {
   display: flex;
@@ -140,11 +145,12 @@
 }
 
 .settings-btn:hover {
-  background-color: var(--clr-surface-2);
+  background-color: var(--clr-primary-2);
+
 }
 
 .settings-btn:active {
-  background-color: var(--clr-surface-3);
+  background-color: var(--clr-btns-active);
 }
 
 .numpad-key:hover {
@@ -187,10 +193,10 @@
   }
   .game-gui {
     width: 98%;
-    margin-top: 20px;
+    margin-top: 2rem;
     position: relative;
-    row-gap: 5px;
-    column-gap: 30px;
+    row-gap: 1rem;
+    column-gap: 3rem;
     grid-template-columns: var(--game-gui-width) calc(100% - var(--game-gui-width) - 35px);
     grid-template-rows: calc(var(--numpad-key-height) - 5px) calc(var(--mode-switch-btn-height) + 10px);
     margin-left: auto;
@@ -203,6 +209,11 @@
     width: auto;
     height: auto;
   }
+
+  .numpad-key-border {
+    border-right: 0.1rem solid var(--clr-element-4);
+  }
+
   .numpad-key-del {
     display: none;
     width: var(--numpad-key-width);
