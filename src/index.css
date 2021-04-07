@@ -344,6 +344,29 @@ body {
   opacity: 1;
 }
 
+.footer {
+  position: absolute;
+  width: 18rem;
+  margin-top: 6rem;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+
+  font-family: 'Lato', sans-serif;
+
+  text-align: center;
+  color: var(--clr-element-1);
+
+  z-index: 1;
+}
+
+.footer > a{
+  text-decoration: none;
+  text-decoration-line: underline;
+  color: var(--clr-element-1);
+}
+
 .img-invert {
   filter: invert();
 }

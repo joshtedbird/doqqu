@@ -319,9 +319,13 @@ function Game(){
           toggleWriteMode = {toggleWriteMode}
           undo = {undo}
         />
+
       </div>
+      <Footer />
       <div className = 'click-collector' onMouseDown = {clicked}>
+
       </div>
+
     </div>
   );
 }
@@ -440,6 +444,15 @@ function GridHeader({seconds, pause}) {
       </div>
     </div>
   );
+}
+
+function Footer() {
+  return(
+    <div className = "footer">
+      {'Made by Josh Collis-Bird 2021 - '}
+      <a href = 'https://github.com/joshtedbird/doqqu' target = "_blank"> {'GitHub'} </a>
+    </div>
+  )
 }
 
 
